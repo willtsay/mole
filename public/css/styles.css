@@ -1,0 +1,56 @@
+
+.info-bar{
+  width: 600px;
+  height: 80px;
+  margin-left:auto;
+  margin-right:auto;
+  background-color:#d5d5d5;
+  border:20px solid #8b8b8b;
+  margin-bottom:0;
+  font-weight: 900;
+  font-size: 40px;
+}
+
+#game {
+  margin-top:1%;
+  margin-left:auto;
+  margin-right:auto;
+  width:600px;
+  height:600px;
+  border:20px solid #8b8b8b;
+  background-color: #d5d5d5;
+}
+#gridplacer {
+  margin-top: 14px;
+  margin-left:14px;
+}
+
+.spawn_location {
+  width: 180px;
+  height:180px;
+  border:5px solid black;
+  display:inline-block;
+  border-radius:5px;
+  position:relative;
+}
+
+
+
+#death{
+  font-weight:900;
+  font-size:50px;
+  color:red;
+  text-align: center;
+}
+
+.holder {
+  font-size:40px;
+  margin:auto;
+  position:fixed;
+}
+
+
+h1 {
+  text-align: center;
+}
+
