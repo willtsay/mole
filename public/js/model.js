@@ -1,12 +1,32 @@
 // on key press "kill" something
 
-Monster = function(grid, delay, keycode, hp, timer){
+Monster = function(delay, keycode, hp, timer){
   this.dead = false
-  this.hp = 1  // number of times it needs to get hit before it dies
-  this.timer = 4 //amount of time it stays out
-  this.grid = grid//where to spawn it 
-  this.keycode = null //what button kills it\
+  this.hp = 1,  // number of times it needs to get hit before it dies
+  this.timer = 3 //amount of time it stays out
+  this.grid = null//where to spawn it 
+  this.keycode = null //what button kills it
+  this.signature = null
   this.delay = delay
+  this.startDespawn = function(monster, view, timer){
+    if (timer == 0 && monster.hp != 0){
+      view.decreaseHp()
+
+      if (view.hp==0){
+
+      }
+      if ($("#" + monster.grid).attr("signature") == monster.signature){
+        $("#" + monster.grid).text("")
+      }
+    }
+    setTimeout(function(){
+      timer--
+      if(timer >= 0){
+        monster.startDespawn(monster, view, timer)
+      } 
+    }, 1000)
+
+  }
 }
 
 Monster.prototype = {
@@ -15,6 +35,7 @@ Monster.prototype = {
       this.dead = true      
     }
   },
+  
 }
 
 
@@ -22,6 +43,8 @@ Monster.prototype = {
 Board = function(){
   this.level = []
   this.complete = false
+  this.board = [0,0,0,0,0,0,0,0,0]
+  this.despawnList = []
 }
 
 
@@ -29,16 +52,15 @@ Board = function(){
 
 
 Board.prototype = {
-  createBasicMonster: function(grid, delay){
-    var monster = new Monster(grid, delay)
+  createBasicMonster: function(delay){
+    var monster = new Monster(delay)
     return monster
   },
   createLevel: function(amount){
     for ( var times= 0; times <= amount; times++ ) {
-      var grid = Math.floor(Math.random()*9)
-      this.level.push(this.createBasicMonster(grid, Math.floor(Math.random()*2500 + 500)))
+      this.level.push(this.createBasicMonster(Math.floor(Math.random()*2500 + 500)))
     }
-  }
+  },
 }
 
 
