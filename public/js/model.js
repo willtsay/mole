@@ -1,24 +1,31 @@
 // on key press "kill" something
 
-Monster = function(delay, keycode, hp, timer){
+Monster = function(delay, special, hp, timer){
   this.dead = false
   this.hp = 1,  // number of times it needs to get hit before it dies
   this.timer = 3 //amount of time it stays out
-  this.grid = null//where to spawn it 
+  this.grid = null//where to spawn it
   this.keycode = null //what button kills it
   this.signature = null
   this.delay = delay
+  this.special = special
+  this.symbols = ["T","Y","U","G","H","J","B","N","M"] 
   this.startDespawn = function(monster, view, timer){
-    if (timer == 0 && monster.hp != 0){
-      view.decreaseHp()
-
-      if (view.hp==0){
-
+    if (timer <= 0){ //TIMER HIT 0?? LETS SEE IF THE MONSTERES HP iS 0 OR NOT
+      if (monster.hp > 0){  //LOOKS LIKE YOU DIDNT KILL HIM
+        view.decreaseHp()
       }
+      //IN ANY CASE, LETS MAKE SURE THIS SHITS THE RIGHT THING TO ERASE
       if ($("#" + monster.grid).attr("signature") == monster.signature){
         $("#" + monster.grid).text("")
+        if ($("#" + $("#" + monster.grid).attr("fake-location")) == monster.signature) {
+        $("#" + $("#" + monster.grid).attr("fake-location")).text("")
+
+        $("#" + monster.grid).attr("fake-location", "")
       }
-    }
+  
+        }
+            }
     setTimeout(function(){
       timer--
       if(timer >= 0){
@@ -30,12 +37,10 @@ Monster = function(delay, keycode, hp, timer){
 }
 
 Monster.prototype = {
-  alive: function(){
-    if (this.hp == 0){
-      this.dead = true      
-    }
-  },
-  
+  makeFake: function(){
+    var monster = new Monster(0, false, 0, 3)
+    return monster
+  }
 }
 
 
@@ -44,7 +49,6 @@ Board = function(){
   this.level = []
   this.complete = false
   this.board = [0,0,0,0,0,0,0,0,0]
-  this.despawnList = []
 }
 
 
@@ -52,15 +56,24 @@ Board = function(){
 
 
 Board.prototype = {
-  createBasicMonster: function(delay){
-    var monster = new Monster(delay)
+  createBasicMonster: function(){
+    var monster = new Monster(Math.floor(Math.random()*2500 + 500))
+    return monster
+  },
+  createSpecialMonster: function(){
+    var monster = new Monster(Math.floor(Math.random()*2500 + 500), true, 2)
     return monster
   },
   createLevel: function(amount){
     for ( var times= 0; times <= amount; times++ ) {
-      this.level.push(this.createBasicMonster(Math.floor(Math.random()*2500 + 500)))
+      this.level.push(this.createBasicMonster())
     }
   },
+  createHardLevel: function(amount){
+    for ( var times= 0; times <= amount; times++ ) {
+      this.level.push(this.createSpecialMonster())
+    }
+  }
 }
 
 

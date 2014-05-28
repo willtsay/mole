@@ -19,15 +19,22 @@ Controller.prototype = {
     $('body').keydown(this.whack.bind(this))
   },
   start: function(){
-    this.board.createLevel(10, this.board.createBasicMonster)
+    this.board.createHardLevel(10)
+    // this.board.createLevel(10, this.board.createBasicMonster)
     this.spawnMonstersLoop(this.view, this, this.board, 0)
     // this.despawnMonstersLoop(this.view, this, this.board, 0) 
   },
   spawnMonstersLoop: function(view, controller, board, i){
    setTimeout(function () {    //  call a 3s setTimeout when the loop is called
-    var monsterLocation = Math.floor(Math.random()*9)
+    // CHECK MONSTER TYPE -> IF SPECIAL RUN SPECIAL SPAWN LOOP
+    var monsterLocation = Math.floor(Math.random()*9) 
     var monster = board.level[i]
-    view.spawn(monsterLocation, board.level[i])
+    if (monster.special === true){
+      view.specialSpawn(monster)
+    }
+    else {
+    view.spawn(monsterLocation, monster)
+    }
     i++                     //  increment the counter
     if (i < board.level.length) {            //  if the counter < 10, call the loop function
       controller.spawnMonstersLoop(view, controller, board, i);             //  ..  again which will trigger another 
@@ -43,7 +50,7 @@ Controller.prototype = {
         timer--
         controller.checkWin(timer, view, controller)
       }
-      if (timer==0){
+      if (timer==0 && view.hp != 0){
         controller.gameover = view.win()
       }
     }, 1000)
@@ -54,35 +61,48 @@ Controller.prototype = {
     }
     else if (e.keyCode == 84){
       this.view.kill(0)
+      this.view.hit(0)
     }
     else if (e.keyCode == 89) {
       this.view.kill(1)
+      this.view.hit(1)
+
     }
     else if (e.keyCode == 85) {
       this.view.kill(2)
+      this.view.hit(2)
+
     }
     else if (e.keyCode == 71) {
       this.view.kill(3)
+      this.view.hit(3)
+
 
     }
     else if (e.keyCode == 72) {
       this.view.kill(4)
+      this.view.hit(4)
+
 
     }
     else if (e.keyCode == 74) {
       this.view.kill(5)
+      this.view.hit(5)
 
     }
     else if (e.keyCode == 66) {
       this.view.kill(6)
+      this.view.hit(6)
 
     }
     else if (e.keyCode == 78) {
       this.view.kill(7)
+      this.view.hit(7)
 
     }
     else if (e.keyCode == 77) {
       this.view.kill(8)
+      this.view.hit(8)
 
     }
     else{

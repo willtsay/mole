@@ -1,3 +1,21 @@
+body{
+  min-width:960px;
+}
+
+nav {
+  background-color: #659e75;
+}
+
+#container {
+  width:100px;
+  height:50px;
+  margin:0 auto;
+  float:right;
+  background-color: #659e75;
+  
+  font-size:30px;
+  display:inline-block;
+}
 
 .info-bar{
   width: 600px;
@@ -28,10 +46,12 @@
 .spawn_location {
   width: 180px;
   height:180px;
-  border:5px solid black;
+  border:5px solid #7f9294;
   display:inline-block;
-  border-radius:5px;
+  border-radius:10px;
+  box-shadow:0 0 0 20px #7f9294 inset;
   position:relative;
+  background-color: #c8e99c;
 }
 
 
@@ -44,7 +64,11 @@
 }
 
 .holder {
-  font-size:40px;
+  width: 180px;
+  height:180px;
+  padding-left: 60px;
+  padding-top: 35px;
+  font-size:100px;
   margin:auto;
   position:fixed;
 }
@@ -53,4 +77,3 @@
 h1 {
   text-align: center;
 }
-
