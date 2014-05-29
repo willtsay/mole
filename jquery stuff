@@ -1,8 +1,0 @@
-jquery stuff
-
-$( ":button")
-$( ".user")
-$("img")
-$("img").css("border", "9px solid red")
-$("div").find(".coach").css("background-color", "pink")
-$("div#container-wrapper").css("background-image", "url('http://fin6.com/wp-content/uploads/2014/01/3c24462450c2a902bf7e18f3d9aada817.jpg')")
