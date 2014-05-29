@@ -23,5 +23,7 @@ end
 get '/logged_in' do
   access_code = params[:code]
   first_response = HTTParty.post("https://accounts.google.com/o/oauth2/token?", {body: {client_id: CLIENT_ID, client_secret: CLIENT_SECRET, redirect_uri: "http://hidden-reaches-5049.herokuapp.com/logged_in", grant_type:"authorization_code", code: access_code}})
-  first_response.body
+  access_token = first_response.body["access_token"]
+  get_user_info = HTTParty.get("https://www.googleapis.com/plus/v1/people/me")
+  get_user_info.body
 end
