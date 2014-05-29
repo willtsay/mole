@@ -14,3 +14,6 @@ get '/google_login' do
   redirect google_url
 end
 
+get '/logged_in' do
+  access_token = params[:access_token]
+end
