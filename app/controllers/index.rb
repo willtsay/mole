@@ -5,7 +5,7 @@ get '/' do
 end
 
 get '/google_login' do
-  google_url = "https://accounts.google.com/o/oauth2/auth" +
+  google_url = "https://accounts.google.com/o/oauth2/auth?" +
                     "response_type=token&"+
                     "client_id=#{CLIENT_ID}&"+
                     "redirect_uri=http://hidden-reaches-5049.herokuapp.com/logged_in&"+
