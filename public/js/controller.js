@@ -2,8 +2,10 @@ $(document).ready(function() {
   var board = new Board()
   var view = new View(board)
   var controller = new Controller(view, board)
+  controller.currentLevel = 0
   controller.bindListeners()
-  controller.start()
+  $("#gridplacer").css("display", "none")
+
 })
 
 Controller = function(view,board){
@@ -11,16 +13,19 @@ Controller = function(view,board){
   this.view = view
   this.board = board
   this.completed = 0
+  this.levels = []
+  this.currentLevel = 0
 }
 
 
 Controller.prototype = {
   bindListeners: function(){
     $('body').keydown(this.whack.bind(this))
+    $('#start').click(this.startCurrentLevel.bind(this))
   },
   start: function(){
     this.board.createHardLevel(10)
-    // this.board.createLevel(10, this.board.createBasicMonster)
+    // this.board.createLevel(10, this.board.createMixedMonster)
     this.spawnMonstersLoop(this.view, this, this.board, 0)
     // this.despawnMonstersLoop(this.view, this, this.board, 0) 
   },
@@ -52,6 +57,7 @@ Controller.prototype = {
       }
       if (timer==0 && view.hp != 0){
         controller.gameover = view.win()
+        $("#start").css("display", "")
       }
     }, 1000)
   },
@@ -60,54 +66,122 @@ Controller.prototype = {
       return 0
     }
     else if (e.keyCode == 84){
-      this.view.kill(0)
       this.view.hit(0)
+      this.view.kill(0)
     }
     else if (e.keyCode == 89) {
-      this.view.kill(1)
       this.view.hit(1)
-
+      this.view.kill(1)
     }
     else if (e.keyCode == 85) {
-      this.view.kill(2)
       this.view.hit(2)
-
+      this.view.kill(2)
     }
     else if (e.keyCode == 71) {
-      this.view.kill(3)
       this.view.hit(3)
-
+      this.view.kill(3)
 
     }
     else if (e.keyCode == 72) {
-      this.view.kill(4)
       this.view.hit(4)
-
+      this.view.kill(4)
 
     }
     else if (e.keyCode == 74) {
-      this.view.kill(5)
       this.view.hit(5)
-
+      this.view.kill(5)
     }
     else if (e.keyCode == 66) {
-      this.view.kill(6)
       this.view.hit(6)
-
+      this.view.kill(6)
     }
     else if (e.keyCode == 78) {
-      this.view.kill(7)
       this.view.hit(7)
-
+      this.view.kill(7)
     }
     else if (e.keyCode == 77) {
-      this.view.kill(8)
       this.view.hit(8)
-
+      this.view.kill(8)
     }
     else{
 
     }
+ },
+ startCurrentLevel: function(){
+  $("#level").text(this.currentLevel)
+  switch (this.currentLevel) {
+    case 0:
+      $("#gridplacer").css("display", "")
+      $("#start").css("display", "none")
+      this.board.createBasicLevel(10, Math.floor(Math.random()*2500 + 500), 1)
+      this.view.signature = 0
+      this.spawnMonstersLoop(this.view, this, this.board, 0)
+      this.currentLevel++
+      break       
+    case 1:
+
+      $("#gridplacer").css("display", "")
+      $("#start").css("display", "none")
+      $("#death").text("")
+      this.gameover = false
+      this.board.createBasicLevel(0, Math.floor(Math.random()*2500 + 500), 2)
+      this.view.signature = 0
+      this.spawnMonstersLoop(this.view, this, this.board, 0)
+      this.currentLevel++
+      break
+    case 2:
+    $("#gridplacer").css("display", "")
+    $("#start").css("display", "none")
+    $("#death").text("")
+    this.gameover = false
+      this.board.createMixedLevel(15, Math.floor(Math.random()*2000 + 500), 2)
+      this.view.signature = 0
+      this.spawnMonstersLoop(this.view, this, this.board, 0)
+      this.currentLevel++
+      break
+    case 3:
+      $("#gridplacer").css("display", "")
+      $("#start").css("display", "none")
+      $("#death").text("")
+      this.gameover = false    
+      this.board.createMedleyLevel(15, Math.floor(Math.random()*2000 + 500), 2)
+      this.view.signature = 0
+      this.spawnMonstersLoop(this.view, this, this.board, 0)
+      this.currentLevel++
+      break
+    case 4:
+      $("#gridplacer").css("display", "")
+      $("#start").css("display", "none")
+      $("#death").text("")
+      this.gameover = false    
+      this.board.createMedleyLevel(15, Math.floor(Math.random()*2000 + 500), 3)
+      this.view.signature = 0
+      this.spawnMonstersLoop(this.view, this, this.board, 0)
+      this.currentLevel++
+      break
+    case 5:
+      $("#gridplacer").css("display", "")
+      $("#start").css("display", "none")
+      $("#death").text("")
+      this.gameover = false    
+      this.board.createMedleyLevel(20, Math.floor(Math.random()*1500 + 500), 4)
+      this.view.signature = 0
+      this.spawnMonstersLoop(this.view, this, this.board, 0)
+      this.currentLevel++
+      break
+    case 6:
+      $("#gridplacer").css("display", "")
+      $("#start").css("display", "none")
+      $("#death").text("")
+      this.gameover = false    
+      this.board.createMedleyLevel(20, Math.floor(Math.random()*1000 + 500), 4)
+      this.view.signature = 0
+      this.spawnMonstersLoop(this.view, this, this.board, 0)
+      this.currentLevel++
+      break
+  }
+  
+
  }
    // despawnMonstersLoop: function(view, controller, board, i){
   //   setTimeout(function () {  // loop through level and do a .kill and such

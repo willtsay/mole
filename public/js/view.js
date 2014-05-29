@@ -3,6 +3,7 @@ View  = function(board){
   this.hp = 5
   this.points = 0
   this.signature = 0
+  this.color = ["#000000","#800100", "#c60200", "#ff5b5e"]
 }
 
 View.prototype = {
@@ -11,13 +12,18 @@ View.prototype = {
       //ONLY HAPPENS IF A MONSTER ACTUALLY GETS PLACED
       monster.grid = location //OKAY MONSTER, YOUR TRUE LOCATION IS HERE.
       this.board.board[location] = monster
+      $("#" + location).css("color", this.color[monster.hp-1])
       monster.signature = this.signature
       $("#" + location).attr("signature", this.signature)
       var timer = monster.timer
       monster.startDespawn(monster,this, timer)
       this.signature ++
-      $("#" + location).text(monster.hp) // OKAY YOU APPEAR HERE. 
-
+      if (monster.spikey == true){
+        $("#" + location).text("*")  
+      }
+      else {
+        $("#" + location).text(monster.hp) // OKAY YOU APPEAR HERE. 
+      }
     }
     else { 
       this.spawn(this.checkEmpty(location), monster)
@@ -43,7 +49,7 @@ View.prototype = {
       this.board.board[truelocation] = monster
       this.board.board[fakelocation] = monsterFake
       //^sets info for hp to be decreased
-
+      $("#" + fakelocation).css("color", this.color[monster.hp-1])
       monster.grid = truelocation
       //^sets info that lets despawn logic work
 
@@ -78,11 +84,28 @@ View.prototype = {
   kill: function(id){
 
     // check if the place is empty AND not occupied
-    if ($("#"+id).text() == "" || $("#"+id).text() =="T" || $("#"+id).text() =="Y" || $("#"+id).text() =="U" || $("#"+id).text() =="G" || $("#"+id).text() =="H" || $("#"+id).text() =="J" || $("#"+id).text() == "B" || $("#"+id).text() =="N" || $("#"+id).text() =="M"){
+    if ($("#"+id).text() == "" || $("#"+id).text() =="T" || $("#"+id).text() =="Y" || $("#"+id).text() =="U" || $("#"+id).text() =="G" || $("#"+id).text() =="H" || $("#"+id).text() =="J" || $("#"+id).text() == "B" || $("#"+id).text() =="N" || $("#"+id).text() =="M" || $("#"+id).text() == "*" ){
       this.decreaseHp()  //change this to check the model or something
     }
     else {
-      this.board.board[id].hp--  //they should get hurt if they try to hit a symbol!
+
+      //HURT THE MONSTER
+      this.board.board[id].hp--  
+
+
+      //CHANGE MONSTER APPEARANCE IF ITS A BASIC TYPE
+      if ($("#"+id).text() == 1 || $("#"+id).text() == 2 || $("#"+id).text() == 3 || $("#"+id).text() == 4){
+        $("#"+id).text( $("#"+id).text() - 1 )
+      }
+
+
+      //CHANGE THE MONSTERS COLOR TOO 
+      if ($("#"+id).attr("fake-location") != ""){
+        ($("#"+$("#"+id).attr("fake-location")).css("color", this.color[this.board.board[id].hp-1]))
+      }
+      else{
+        $("#"+id).css("color", this.color[this.board.board[id].hp-1])
+      }
       if (this.board.board[id].hp == 0){
 
         //looks at the id you just hit, what signature does it have? itll clear whatever the signature is
@@ -91,6 +114,7 @@ View.prototype = {
         //get rid of the text at the fake-location
         if ($("#" + id).attr("fake-location") != ""){
           $("#" + $("#" + id).attr("fake-location")).text("")
+          $("#" + id).attr("fake-location", "")
         } 
       }
       this.points++
@@ -137,7 +161,11 @@ View.prototype = {
     return true
   },
   hit: function(id){
-    $(".spawn_location .holder[id=" + id + "]").parent().css("background-color", "red")
+    if ( $("#" + id).text() != "" && $("#"+id).text() !="T" && $("#"+id).text() != "Y" && $("#"+id).text() != "U" && $("#"+id).text() !="G" && $("#"+id).text() !="H" && $("#"+id).text() !="J" && $("#"+id).text() != "B" && $("#"+id).text() !="N" && $("#"+id).text() !="M" && $("#"+id).text() != "*")  {
+        $(".spawn_location .holder[id=" + id + "]").parent().css("background-color", "green")}
+    else{
+      $(".spawn_location .holder[id=" + id + "]").parent().css("background-color", "red")
+    }
     setTimeout(function(){
       $(".spawn_location .holder[id=" + id + "]").parent().css("background-color", "#c8e99c")
     }, 125)

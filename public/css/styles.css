@@ -1,9 +1,23 @@
-body{
-  min-width:960px;
+body {
+  font-family: 'Arimo', sans-serif;
+
 }
 
+a:link{text-decoration:none;}
+
 nav {
+  font-size:3em;
+  display:block;
+  height:60px;
   background-color: #659e75;
+}
+
+nav span{
+  float:right;
+}
+
+nav span a{
+  margin-left:50px;
 }
 
 #container {
@@ -33,6 +47,7 @@ nav {
   margin-top:1%;
   margin-left:auto;
   margin-right:auto;
+  display:block;
   width:600px;
   height:600px;
   border:20px solid #8b8b8b;
@@ -53,7 +68,6 @@ nav {
   position:relative;
   background-color: #c8e99c;
 }
-
 
 
 #death{

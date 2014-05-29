@@ -2,23 +2,24 @@
 
 Monster = function(delay, special, hp, timer){
   this.dead = false
-  this.hp = 1,  // number of times it needs to get hit before it dies
+  this.hp = hp,  // number of times it needs to get hit before it dies
   this.timer = 3 //amount of time it stays out
   this.grid = null//where to spawn it
   this.keycode = null //what button kills it
   this.signature = null
   this.delay = delay
+  this.spikey = null
   this.special = special
   this.symbols = ["T","Y","U","G","H","J","B","N","M"] 
   this.startDespawn = function(monster, view, timer){
     if (timer <= 0){ //TIMER HIT 0?? LETS SEE IF THE MONSTERES HP iS 0 OR NOT
-      if (monster.hp > 0){  //LOOKS LIKE YOU DIDNT KILL HIM
+      if (monster.hp > 0 && monster.spikey != true){  //LOOKS LIKE YOU DIDNT KILL HIM
         view.decreaseHp()
       }
       //IN ANY CASE, LETS MAKE SURE THIS SHITS THE RIGHT THING TO ERASE
       if ($("#" + monster.grid).attr("signature") == monster.signature){
         $("#" + monster.grid).text("")
-        if ($("#" + $("#" + monster.grid).attr("fake-location")) == monster.signature) {
+        if ($("#" + $("#" + monster.grid).attr("fake-location")).attr("signature") == monster.signature) {
         $("#" + $("#" + monster.grid).attr("fake-location")).text("")
 
         $("#" + monster.grid).attr("fake-location", "")
@@ -56,22 +57,62 @@ Board = function(){
 
 
 Board.prototype = {
-  createBasicMonster: function(){
-    var monster = new Monster(Math.floor(Math.random()*2500 + 500))
+  createBasicMonster: function(delay, health){
+    var monster = new Monster(delay, false, health)
     return monster
   },
-  createSpecialMonster: function(){
-    var monster = new Monster(Math.floor(Math.random()*2500 + 500), true, 2)
+  createSpecialMonster: function(delay, health){
+    var monster = new Monster(delay, true, health)
     return monster
   },
-  createLevel: function(amount){
+  createSpikeyMonster: function(delay){
+    var monster = new Monster(delay, false, 4)
+    monster.spikey = true
+    return monster
+  },
+  createBasicLevel: function(amount, delay, maxhp){
+    this.level = []
     for ( var times= 0; times <= amount; times++ ) {
-      this.level.push(this.createBasicMonster())
+      var hp = Math.floor(Math.random()*maxhp+1)
+      this.level.push(this.createBasicMonster(delay, hp))
     }
   },
-  createHardLevel: function(amount){
+  // createHardLevel: function(amount){
+  //   for ( var times= 0; times <= amount; times++ ) {
+  //     this.level.push(this.createSpecialMonster())
+  //   }
+  // },
+
+  createMixedLevel:function(amount,delay,maxhp){
+    this.level = []
     for ( var times= 0; times <= amount; times++ ) {
-      this.level.push(this.createSpecialMonster())
+      var monsterType = Math.floor(Math.random()*2)
+      var hp = Math.floor(Math.random()*maxhp+1)
+      if (monsterType == 1){
+        this.level.push(this.createSpecialMonster(delay, hp))
+      }
+      else{
+        this.level.push(this.createBasicMonster(delay, hp))
+
+      }
+
+    }
+  },
+  createMedleyLevel:function(amount,delay,maxhp){
+    this.level = []
+    for ( var times= 0; times <= amount; times++ ) {
+      var monsterType = Math.floor(Math.random()*3)
+      var hp = Math.floor(Math.random()*maxhp+1)
+      if (monsterType == 1){
+        this.level.push(this.createSpecialMonster(delay, hp))
+      }
+      else if(monsterType ==2) {
+        this.level.push(this.createBasicMonster(delay, hp))
+
+      }
+      else{
+        this.level.push(this.createSpikeyMonster(delay))
+      }
     }
   }
 }
