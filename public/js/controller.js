@@ -45,7 +45,7 @@ Controller.prototype = {
       controller.spawnMonstersLoop(view, controller, board, i);             //  ..  again which will trigger another 
     }
     if (i==board.level.length) {
-      controller.checkWin(4, view, controller)
+      controller.checkWin(5, view, controller)
     }
     }, board.level[i].delay)
   },
@@ -63,7 +63,11 @@ Controller.prototype = {
   },
   whack: function(e){
     if (this.view.hp <= 0 || this.gameover){
-      return 0
+      var ajaxRequest = $.ajax(){
+        url: '/highscores'
+        type: 'post'
+        data: {highscore: this.view.points}
+      }
     }
     else if (e.keyCode == 84){
       this.view.hit(0)
@@ -124,7 +128,7 @@ Controller.prototype = {
       $("#start").css("display", "none")
       $("#death").text("")
       this.gameover = false
-      this.board.createBasicLevel(0, Math.floor(Math.random()*2500 + 500), 2)
+      this.board.createBasicLevel(10, Math.floor(Math.random()*2500 + 500), 2)
       this.view.signature = 0
       this.spawnMonstersLoop(this.view, this, this.board, 0)
       this.currentLevel++

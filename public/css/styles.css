@@ -3,6 +3,10 @@ body {
 
 }
 
+.spawn_location{
+  font-size: 10px;
+}
+
 a:link{text-decoration:none;}
 
 nav {
@@ -32,6 +36,7 @@ nav span a{
 }
 
 .info-bar{
+  margin-top:1%;
   width: 600px;
   height: 80px;
   margin-left:auto;
@@ -61,6 +66,7 @@ nav span a{
 .spawn_location {
   width: 180px;
   height:180px;
+  margin:1px;
   border:5px solid #7f9294;
   display:inline-block;
   border-radius:10px;
@@ -69,7 +75,10 @@ nav span a{
   background-color: #c8e99c;
 }
 
-
+#start{
+  font-size:100px;
+  text-align: center;
+}
 #death{
   font-weight:900;
   font-size:50px;

@@ -26,7 +26,34 @@ get '/logged_in' do
   access_token = first_response["access_token"]
   user_info = HTTParty.get("https://www.googleapis.com/plus/v1/people/me?", {query: {access_token: access_token}})
   #check if their email is in the database, otherwise write them in. 
-  user_info.body
-  # if User.find_by_email(user_info["email"])
-  # user = User.create()
+  email = user_info["emails"][0]["value"]
+  if User.find_by_email(email).any?
+    session[:id] = User.find_by_email(email).id
+  else
+    user = User.create(email: email)
+    session[:id] = user.id
+  end
 end
+
+get '/log_out' do
+  #handle these with ajax requests??
+  session[:id] = nil
+end
+
+get '/highscores' do
+  @users = User.all
+  #sort the users by the highest of scores/ get the top 10. 
+  erb :highscores
+end
+
+post '/highscores' do
+  if session[:id]
+    user = User.find(session[:id])
+    if user.highscore < params[:highscore]
+      user.highscore = params[:highscore]
+    end
+    user.highscore
+  end
+end
+
+

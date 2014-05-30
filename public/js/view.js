@@ -1,6 +1,6 @@
 View  = function(board){
   this.board = board
-  this.hp = 5
+  this.hp = 10
   this.points = 0
   this.signature = 0
   this.color = ["#000000","#800100", "#c60200", "#ff5b5e"]
