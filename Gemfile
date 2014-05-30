@@ -14,7 +14,7 @@ gem 'activesupport'
 gem 'activerecord'
 gem 'httparty'
 gem 'rake'
-
+gem 'rspec'
 gem 'shotgun'
 
 group :test do
