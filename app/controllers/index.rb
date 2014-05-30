@@ -41,7 +41,13 @@ get '/log_out' do
 end
 
 get '/highscores' do
-  @users = User.all
+  users = User.all
+  scores = users.map do |user|
+    user.highscore
+  end
+  scores.sort!
+  scores.reverse!
+  @scores = scores.take(10)
   #sort the users by the highest of scores/ get the top 10. 
   erb :highscores
 end
