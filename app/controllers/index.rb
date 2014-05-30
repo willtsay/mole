@@ -11,6 +11,7 @@ get '/' do
 end
 
 get '/google_login' do
+  session[:id] = nil
   google_url = "https://accounts.google.com/o/oauth2/auth?" +
                     "response_type=code&"+
                     "client_id=#{CLIENT_ID}&"+
@@ -33,6 +34,7 @@ get '/logged_in' do
     user = User.create(email: email)
     session[:id] = user.id
   end
+  redirect '/'
 end
 
 get '/log_out' do
