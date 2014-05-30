@@ -63,11 +63,11 @@ Controller.prototype = {
   },
   whack: function(e){
     if (this.view.hp <= 0 || this.gameover){
-      var ajaxRequest = $.ajax(){
+      var ajaxRequest = $.ajax({
         url: '/highscores'
         type: 'post'
         data: {highscore: this.view.points}
-      }
+      })
     }
     else if (e.keyCode == 84){
       this.view.hit(0)
